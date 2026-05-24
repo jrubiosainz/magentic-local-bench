@@ -1,6 +1,10 @@
 # magentic-local-bench
 
+![MagenticBrain 14B vs GPT-4.1 agentic benchmark hero](assets/magentic-local-bench-hero.png)
+
 Benchmark suite that compares **MagenticBrain** (14B orchestrator from MagenticLite) running locally via Foundry Local against GPT-4.1 on multi-step agentic coding tasks.
+
+Official MagenticBrain documentation: <https://labs.ai.azure.com/projects/magenticbrain/>
 
 ## Why
 
