@@ -33,12 +33,39 @@ This benchmark answers that with reproducible numbers.
 
 - Python 3.11+
 - Foundry Local 1.1+ (for MagenticBrain)
-- OpenAI API key (for GPT-4.1 comparison)
+- OpenAI API key or Azure OpenAI deployment (for GPT-4.1 comparison)
 
 ## Setup
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Cloud model configuration
+
+For the GPT-4.1 comparison, choose either OpenAI or Azure OpenAI.
+
+### OpenAI
+
+```bash
+export OPENAI_PROVIDER=openai
+export OPENAI_API_KEY="sk-..."
+```
+
+### Azure OpenAI
+
+```bash
+export OPENAI_PROVIDER=azure
+export AZURE_OPENAI_API_KEY="..."
+export AZURE_OPENAI_ENDPOINT="https://YOUR-RESOURCE.openai.azure.com"
+export AZURE_OPENAI_API_VERSION="2024-10-21"
+export AZURE_OPENAI_DEPLOYMENT="YOUR-GPT-4.1-DEPLOYMENT"
+```
+
+When benchmarking multiple Azure deployments, set a model-specific deployment variable using the model name uppercased with punctuation replaced by underscores:
+
+```bash
+export AZURE_OPENAI_DEPLOYMENT_GPT_4_1="YOUR-GPT-4.1-DEPLOYMENT"
 ```
 
 ## Usage

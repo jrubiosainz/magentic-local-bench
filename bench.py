@@ -3,12 +3,14 @@
 
 import argparse
 import json
+import os
+import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import httpx
-from openai import OpenAI
+from openai import AzureOpenAI, OpenAI
 from rich.console import Console
 from rich.table import Table
 
@@ -16,6 +18,7 @@ console = Console()
 
 FOUNDRY_LOCAL_URL = "http://localhost:5272/v1"
 TASKS_DIR = Path(__file__).parent / "tasks"
+DEFAULT_AZURE_API_VERSION = "2024-10-21"
 
 
 @dataclass
@@ -43,12 +46,47 @@ class Task:
         return cls(**data)
 
 
-def get_client(model: str) -> tuple[OpenAI, str]:
+def require_env(name: str) -> str:
+    """Return a required environment variable or raise a useful error."""
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
+
+
+def env_key_for_model(model: str) -> str:
+    """Build an env-safe suffix for model-specific Azure deployment names."""
+    return re.sub(r"[^A-Z0-9]+", "_", model.upper()).strip("_")
+
+
+def get_openai_client(model: str) -> tuple[OpenAI | AzureOpenAI, str]:
+    """Return a cloud OpenAI client and model/deployment name."""
+    provider = os.getenv("OPENAI_PROVIDER", "openai").lower()
+
+    if provider == "azure":
+        client = AzureOpenAI(
+            api_key=require_env("AZURE_OPENAI_API_KEY"),
+            azure_endpoint=require_env("AZURE_OPENAI_ENDPOINT"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", DEFAULT_AZURE_API_VERSION),
+        )
+        deployment = os.getenv(
+            f"AZURE_OPENAI_DEPLOYMENT_{env_key_for_model(model)}",
+            os.getenv("AZURE_OPENAI_DEPLOYMENT", model),
+        )
+        return client, deployment
+
+    if provider == "openai":
+        return OpenAI(api_key=os.getenv("OPENAI_API_KEY")), model
+
+    raise RuntimeError("OPENAI_PROVIDER must be either 'openai' or 'azure'")
+
+
+def get_client(model: str) -> tuple[OpenAI | AzureOpenAI, str]:
     """Return (client, model_name) for the given model identifier."""
     if model == "magenticbrain":
         return OpenAI(base_url=FOUNDRY_LOCAL_URL, api_key="local"), "MagenticBrain-14B"
-    else:
-        return OpenAI(), model
+
+    return get_openai_client(model)
 
 
 def run_task(task: Task, model: str) -> TaskResult:
