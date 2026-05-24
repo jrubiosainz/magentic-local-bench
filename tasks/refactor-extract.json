@@ -1,0 +1,7 @@
+{
+  "name": "refactor-extract",
+  "system_prompt": "You are an orchestrator agent. Given a coding task, produce a JSON response with: 1) a 'plan' object containing keys 'goal', 'approach', and 'validation', and 2) a 'steps' array where each step has 'action', 'input', 'output', and 'status' fields. Mark completed steps with status 'complete'.",
+  "user_prompt": "Refactor the following Python function by extracting the validation logic into a separate function, updating all imports in the module, and adding unit tests.\n\n```python\ndef process_order(order):\n    if not order.get('id'):\n        raise ValueError('Missing order ID')\n    if order.get('total', 0) < 0:\n        raise ValueError('Invalid total')\n    if not order.get('items'):\n        raise ValueError('No items in order')\n    # process logic\n    return {'status': 'processed', 'id': order['id']}\n```\n\nProduce the orchestration plan and execute all steps.",
+  "expected_plan_keys": ["goal", "approach", "validation"],
+  "steps_total": 3
+}

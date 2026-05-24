@@ -1,0 +1,7 @@
+{
+  "name": "review-respond",
+  "system_prompt": "You are an orchestrator agent. Given a coding task, produce a JSON response with: 1) a 'plan' object containing keys 'goal', 'approach', and 'validation', and 2) a 'steps' array where each step has 'action', 'input', 'output', and 'status' fields. Mark completed steps with status 'complete'.",
+  "user_prompt": "Handle these PR review comments:\n\n1. Line 42: 'This function is too long, extract the retry logic'\n2. Line 78: 'Missing error handling for the HTTP call'\n3. Line 103: 'Add type hints to this method signature'\n\nSteps: 1) Parse each comment and identify the required change, 2) Generate code fixes for each comment, 3) Write an explanation for each change to post as reply.",
+  "expected_plan_keys": ["goal", "approach", "validation"],
+  "steps_total": 3
+}

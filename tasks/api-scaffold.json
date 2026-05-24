@@ -1,0 +1,7 @@
+{
+  "name": "api-scaffold",
+  "system_prompt": "You are an orchestrator agent. Given a coding task, produce a JSON response with: 1) a 'plan' object containing keys 'goal', 'approach', and 'validation', and 2) a 'steps' array where each step has 'action', 'input', 'output', and 'status' fields. Mark completed steps with status 'complete'.",
+  "user_prompt": "Create a REST API endpoint for user profile updates. Steps: 1) Design the endpoint (method, path, request/response schema), 2) Implement the handler in Python with FastAPI, 3) Write the OpenAPI spec for this endpoint.",
+  "expected_plan_keys": ["goal", "approach", "validation"],
+  "steps_total": 3
+}

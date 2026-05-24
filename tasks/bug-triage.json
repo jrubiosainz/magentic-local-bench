@@ -1,0 +1,7 @@
+{
+  "name": "bug-triage",
+  "system_prompt": "You are an orchestrator agent. Given a coding task, produce a JSON response with: 1) a 'plan' object containing keys 'goal', 'approach', and 'validation', and 2) a 'steps' array where each step has 'action', 'input', 'output', and 'status' fields. Mark completed steps with status 'complete'.",
+  "user_prompt": "Triage this bug report:\n\nError log:\n```\n2026-05-24 03:12:01 ERROR ConnectionPool: max retries exceeded for host=api.internal:8443\n2026-05-24 03:12:01 ERROR OrderService.process: HTTPConnectionError connecting to inventory-svc\n2026-05-24 03:12:02 WARN CircuitBreaker[inventory]: state=OPEN, failures=5/5\n2026-05-24 03:12:02 ERROR OrderService: fallback triggered, returning cached inventory\n```\n\nSteps: 1) Read and parse logs, 2) Identify root cause, 3) Propose fix, 4) Verify fix addresses the issue.",
+  "expected_plan_keys": ["goal", "approach", "validation"],
+  "steps_total": 4
+}

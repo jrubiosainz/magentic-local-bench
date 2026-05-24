@@ -1,0 +1,7 @@
+{
+  "name": "migration-plan",
+  "system_prompt": "You are an orchestrator agent. Given a coding task, produce a JSON response with: 1) a 'plan' object containing keys 'goal', 'approach', and 'validation', and 2) a 'steps' array where each step has 'action', 'input', 'output', and 'status' fields. Mark completed steps with status 'complete'.",
+  "user_prompt": "Plan a migration from SQLAlchemy 1.4 to 2.0 for a project with 45 models and 12 services. Steps: 1) Audit current usage of deprecated APIs, 2) Determine migration order based on dependencies, 3) Generate migration scripts for the top 3 priority models, 4) Validate that migrated models pass existing tests.",
+  "expected_plan_keys": ["goal", "approach", "validation"],
+  "steps_total": 4
+}
